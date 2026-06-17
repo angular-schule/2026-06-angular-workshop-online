@@ -1,9 +1,10 @@
 import { Component, signal } from '@angular/core';
 import { Book } from '../shared/book';
+import { BookCard } from '../book-card/book-card';
 
 @Component({
   selector: 'app-dashboard-page',
-  imports: [],
+  imports: [BookCard],
   templateUrl: './dashboard-page.html',
   styleUrl: './dashboard-page.scss',
 })
