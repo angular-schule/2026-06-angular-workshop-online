@@ -28,6 +28,54 @@ export class DashboardPage {
         rating: 3,
         price: 36.9,
         authors: ['Fabian Deitelhoff']
+      },
+      {
+        isbn: '123',
+        title: 'React',
+        description: 'Komponentenbasierte UI-Entwicklung',
+        rating: 4,
+        price: 34.9,
+        authors: ['Oliver Zeigermann', 'Nils Hartmann']
+      },
+      {
+        isbn: '321',
+        title: 'TypeScript',
+        description: 'Typsichere JavaScript-Entwicklung',
+        rating: 5,
+        price: 29.9,
+        authors: ['Stefan Baumgartner']
+      },
+      {
+        isbn: '654',
+        title: 'RxJS',
+        description: 'Reaktive Programmierung mit Observables',
+        rating: 4,
+        price: 32.9,
+        authors: ['Michael Kaaden']
+      },
+      {
+        isbn: '987',
+        title: 'NestJS',
+        description: 'Skalierbare Server-Anwendungen mit Node.js',
+        rating: 4,
+        price: 42.9,
+        authors: ['Johannes Hoppe', 'Gregor Woiwode']
+      },
+      {
+        isbn: '147',
+        title: 'Svelte',
+        description: 'Das Framework ohne virtuelles DOM',
+        rating: 4,
+        price: 31.9,
+        authors: ['Rich Harris']
+      },
+      {
+        isbn: '258',
+        title: 'Node.js',
+        description: 'Serverseitige JavaScript-Entwicklung',
+        rating: 5,
+        price: 38.9,
+        authors: ['Sebastian Springer']
       }
     ]);
   }
