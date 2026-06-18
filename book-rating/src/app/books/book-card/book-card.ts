@@ -19,7 +19,7 @@ export class BookCard {
   readonly rateDown = output<Book>();
 
   // Computed Signal: Wert wird neu berechnet, wenn this.book sich ändert
-  readonly authors = computed(() => this.book().authors.join(', '));
+  protected readonly authors = computed(() => this.book().authors.join(', '));
 
   doRateUp() {
     this.rateUp.emit(this.book());
