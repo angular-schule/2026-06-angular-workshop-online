@@ -3,12 +3,17 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DashboardPage } from './dashboard-page';
 import { BookRatingHelper } from '../shared/book-rating-helper';
 import { Book } from '../shared/book';
+import { Mock } from 'vitest';
 
 describe('DashboardPage', () => {
   let component: DashboardPage;
   let fixture: ComponentFixture<DashboardPage>;
+  let rateUpMockFn: Mock;
 
   beforeEach(async () => {
+    // Mock-Funktion
+    rateUpMockFn = vi.fn();
+
     await TestBed.configureTestingModule({
       imports: [DashboardPage],
       providers: [
@@ -17,19 +22,40 @@ describe('DashboardPage', () => {
         {
           provide: BookRatingHelper,
           useValue: {
-            rateUp: (book: Book) => book,
-            rateDown: (book: Book) => book,
+            rateUp: rateUpMockFn,
+            // Mock-Funktion mit eigener Implementierung
+            rateDown: vi.fn().mockImplementation(b => b),
           }
         }
       ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(DashboardPage);
+    // TS-Klasseninstanz:
     component = fixture.componentInstance;
+    // DOM-Element: fixture.nativeElement
     await fixture.whenStable();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should call service.rateUp for doRateUp()', () => {
+    // ARRANGE
+    // Testbuch
+    const testBook = { isbn: '456', rating: 5 } as Book; // Type Assertion: gefährlich, aber im Test OK.
+    
+    // Mock-Verhalten steuern
+    rateUpMockFn.mockReturnValue(testBook);
+
+    // alternativ: Spy (Objekt überwachen)
+    // vi.spyOn(bookRatingHelper, 'rateUp')
+    
+    // ACT
+    component.doRateUp(testBook);
+
+    // ASSERT
+    expect(rateUpMockFn).toHaveBeenCalledExactlyOnceWith(testBook);
   });
 });
