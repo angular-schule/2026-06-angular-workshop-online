@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { BookStore } from '../shared/book-store';
 
 @Component({
   selector: 'app-book-details-page',
@@ -7,4 +8,8 @@ import { RouterLink } from '@angular/router';
   templateUrl: './book-details-page.html',
   styleUrl: './book-details-page.scss',
 })
-export class BookDetailsPage {}
+export class BookDetailsPage {
+  readonly isbn = input.required<string>();
+  readonly book = inject(BookStore).getSingleResource(this.isbn);
+
+}

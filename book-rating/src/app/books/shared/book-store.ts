@@ -1,5 +1,5 @@
 import { HttpClient, httpResource, HttpResourceRef } from '@angular/common/http';
-import { inject, Service } from '@angular/core';
+import { inject, Service, Signal } from '@angular/core';
 import { Book } from './book';
 import { Observable } from 'rxjs';
 
@@ -24,6 +24,12 @@ export class BookStore {
     getSingle(isbn: string): Observable<Book>  {
         // Template String
         return this.#http.get<Book>(`${this.#apiUrl}/books/${isbn}`);
+    }
+
+    getSingleResource(isbn: () => string): HttpResourceRef<Book | undefined> {
+        return httpResource<Book>(
+            () => `${this.#apiUrl}/books/${isbn()}`
+        )
     }
 
     create(book: Book): Observable<Book>  {
