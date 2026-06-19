@@ -11,9 +11,11 @@
     <p><strong>Preis:</strong> {{ book().price }}</p>
 
     <button type="button" class="btn btn-red"
+      [disabled]="book().rating <= minRating()"
       aria-label="Bewertung verringern" (click)="doRateDown()"> – </button>
     
     <button type="button" class="btn btn-green"
+      [disabled]="book().rating >= maxRating()"
       aria-label="Bewertung erhöhen" (click)="doRateUp()"> + </button>
   </div>
 </article>
