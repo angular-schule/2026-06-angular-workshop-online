@@ -6,15 +6,18 @@ import { Book } from '../shared/book';
 import { Mock } from 'vitest';
 import { BookStore } from '../shared/book-store';
 import { of } from 'rxjs';
+import { resource } from '@angular/core';
 
 describe('DashboardPage', () => {
   let component: DashboardPage;
   let fixture: ComponentFixture<DashboardPage>;
   let rateUpMockFn: Mock;
+  let booksLoaderMock: Mock;
 
   beforeEach(async () => {
     // Mock-Funktion
     rateUpMockFn = vi.fn();
+    booksLoaderMock = vi.fn().mockResolvedValue([]);
 
     await TestBed.configureTestingModule({
       imports: [DashboardPage],
@@ -32,7 +35,8 @@ describe('DashboardPage', () => {
         {
           provide: BookStore,
           useValue: {
-            getAll: () => of([])
+            getAll: () => of([]),
+            getAllResource: () => resource({ loader: booksLoaderMock })
           }
         }
       ]
