@@ -17,5 +17,17 @@
     <button type="button" class="btn btn-green"
       [disabled]="book().rating >= maxRating()"
       aria-label="Bewertung erhöhen" (click)="doRateUp()"> + </button>
+
+    <a [routerLink]="['/books', book().isbn]">Details</a>
+    
+    <!--<a routerLink="/books">Dashboard</a>
+    <a [routerLink]="book().isbn">Details</a>
+    <a [routerLink]="['..', 'books', book().isbn]">Details</a>
+
+    <a [routerLink]="'/books/' + book().isbn">Details</a>
+    <a [routerLink]="`/books/${book().isbn}`">Details</a>
+    <a routerLink="/books/{{ book().isbn }}">Details</a>
+    <a [routerLink]="[book().isbn]">Details</a>
+    <a routerLink="{{ book().isbn }}">Details</a>-->
   </div>
 </article>
