@@ -34,10 +34,10 @@ describe('DashboardPage', () => {
         },
         {
           provide: BookStore,
-          useValue: {
+          useFactory: () => ({
             getAll: () => of([]),
             getAllResource: () => resource({ loader: booksLoaderMock })
-          }
+          })
         }
       ]
     }).compileComponents();
