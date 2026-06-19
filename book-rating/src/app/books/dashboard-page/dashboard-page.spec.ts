@@ -36,7 +36,7 @@ describe('DashboardPage', () => {
           provide: BookStore,
           useFactory: () => ({
             getAll: () => of([]),
-            getAllResource: () => resource({ loader: booksLoaderMock })
+            booksResource: resource({ loader: booksLoaderMock })
           })
         }
       ]

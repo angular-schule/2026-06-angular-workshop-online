@@ -14,9 +14,10 @@ export class DashboardPage {
   readonly #bookStore = inject(BookStore);
   readonly #ratingHelper = inject(BookRatingHelper);
 
-  protected readonly books = this.#bookStore.getAllResource();
+  protected readonly books = this.#bookStore.booksResource;
 
   constructor() {
+    this.books.reload();
     /*this.#bookStore.getAll().subscribe(receivedBooks => {
       this.books.set(receivedBooks);
     });*/

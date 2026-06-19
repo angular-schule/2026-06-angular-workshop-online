@@ -8,11 +8,13 @@ export class BookStore {
     #http = inject(HttpClient);
     #apiUrl = 'https://api.angular.schule';
 
+    readonly booksResource = this.#getAllResource();
+
     getAll(): Observable<Book[]> {
         return this.#http.get<Book[]>(this.#apiUrl + '/books');
     }
 
-    getAllResource(): HttpResourceRef<Book[]> {
+    #getAllResource(): HttpResourceRef<Book[]> {
         return httpResource<Book[]>(
             () => this.#apiUrl + '/books',
             { defaultValue: [] }
