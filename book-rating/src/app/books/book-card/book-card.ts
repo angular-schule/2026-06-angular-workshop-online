@@ -20,6 +20,7 @@ export class BookCard {
   // von unten nach oben
   readonly rateUp = output<Book>();
   readonly rateDown = output<Book>();
+  readonly delete = output<Book>();
 
   // Computed Signal: Wert wird neu berechnet, wenn this.book sich ändert
   protected readonly authors = computed(() => this.book().authors.join(', '));
@@ -30,5 +31,13 @@ export class BookCard {
   
   doRateDown() {
     this.rateDown.emit(this.book());
+  }
+
+  doDelete() {
+    if (!confirm('Buch wirklich löschen?')) {
+      return;
+    }
+
+    this.delete.emit(this.book());
   }
 }
