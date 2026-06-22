@@ -1,6 +1,6 @@
 import { Component, effect, signal } from '@angular/core';
 import { Book } from '../shared/book';
-import { form, FormField, FormRoot, min, max, required, minLength, maxLength, provideSignalFormsConfig } from '@angular/forms/signals';
+import { form, FormField, FormRoot, min, max, required, minLength, maxLength, provideSignalFormsConfig, pattern } from '@angular/forms/signals';
 import { JsonPipe } from '@angular/common';
 
 @Component({
@@ -34,6 +34,7 @@ export class BookCreatePage {
       required(path.isbn, { message: 'ISBN muss angegeben werden.' });
       minLength(path.isbn, 13, { message: 'ISBN ist zu kurz.' });
       maxLength(path.isbn, 13, { message: 'ISBN ist zu lang.' });
+      pattern(path.isbn, /^[0-9]*$/, { message: 'ISBN muss aus Zahlen bestehen.' });
       
       required(path.title, { message: 'Titel muss angegeben werden.' });
       

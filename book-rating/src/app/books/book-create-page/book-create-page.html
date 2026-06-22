@@ -2,15 +2,20 @@
     <div class="form-group">
         <label for="isbnInput">ISBN</label>
         <input type="text" id="isbnInput" class="form-control"
+            // Attribut aria-invalid nur einbinden, wenn Feld touched ist
+            [aria-invalid]="bookForm.isbn().touched() ? bookForm.isbn().invalid() : null"
+            [aria-errormessage]="bookForm.isbn().touched() && bookForm.isbn().invalid() ? 'isbnErrors' : null"
             [formField]="bookForm.isbn" />
         <p>valid: {{ bookForm.isbn().valid() }}</p>
         
         @if (bookForm.isbn().touched() && bookForm.isbn().invalid()) {
-            <ul class="feedback-error">
-                @for (e of bookForm.isbn().errors(); track e.kind) {
-                    <li>{{ e.message }} ({{ e.kind }})</li>
-                }
-            </ul>
+            <div role="alert" id="isbnErrors">
+                <ul class="feedback-error">
+                    @for (e of bookForm.isbn().errors(); track e.kind) {
+                        <li>{{ e.message }} ({{ e.kind }})</li>
+                    }
+                </ul>
+            </div>
         }
     </div>
 
