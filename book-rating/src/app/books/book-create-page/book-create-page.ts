@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, effect, signal } from '@angular/core';
 import { Book } from '../shared/book';
 import { form, FormField, FormRoot, min, max, required, minLength, maxLength, provideSignalFormsConfig } from '@angular/forms/signals';
 import { JsonPipe } from '@angular/common';
@@ -45,5 +45,16 @@ export class BookCreatePage {
       min(path.price, 0, { message: 'Preis darf nicht < 0 sein.' });
     }
   );
+
+  constructor() {
+    /*effect(() => {
+      localStorage.setItem('formData', JSON.stringify(this.bookFormData()))
+    })
+
+    const fromStorage = localStorage.getItem('formData');
+    if (fromStorage) {
+      this.bookFormData.set(JSON.parse(fromStorage))
+    }*/
+  }
 
 }
