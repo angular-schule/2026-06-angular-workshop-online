@@ -1,3 +1,4 @@
+<p>{{ currentTimestamp() | date:'medium' }}</p>
 <p>Status: {{ books.status() }}</p>
 
 <button type="button" class="btn btn-green" (click)="books.reload()">Neuladen</button>
