@@ -1,5 +1,10 @@
 <main class="container">
   <h1>{{ title() }}</h1>
 
+  <nav class="mb-3">
+    <a [routerLink]="['/home']" routerLinkActive="active" ariaCurrentWhenActive="page" class="me-2">Home</a>
+    <a [routerLink]="['/books']" routerLinkActive="active" ariaCurrentWhenActive="page" class="me-2">Books</a>
+  </nav>
+
   <router-outlet />
 </main>
