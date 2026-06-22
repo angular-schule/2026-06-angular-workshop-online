@@ -12,4 +12,22 @@ export class BookDetailsPage {
   readonly isbn = input.required<string>();
   readonly book = inject(BookStore).getSingleResource(this.isbn);
 
+  /*
+  // Alternativ: mit RxJS/Observables
+  route = inject(ActivatedRoute);
+  bs = inject(BookStore);
+  readonly bookX = toSignal(this.route.paramMap.pipe(
+    map(params => params.get('isbn')),
+    filter(isbn => isbn !== null),
+    switchMap(isbn => this.bs.getSingle(isbn))
+  ));
+
+  readonly bookX$ = toObservable(this.isbn).pipe(
+    switchMap(isbn => this.bs.getSingle(isbn))
+  );
+  
+  readonly bookX = toSignal(this.bookX$);
+  */
+
+
 }
