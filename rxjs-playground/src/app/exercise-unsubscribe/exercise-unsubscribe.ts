@@ -1,4 +1,4 @@
-import { Component, DestroyRef } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { Subject, ReplaySubject, timer, Subscription, takeWhile, takeUntil } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
@@ -20,21 +20,21 @@ export class ExerciseUnsubscribe {
    * Sorge dafür, dass die Subscription beendet wird, sobald die Komponente zerstört wird!
    * 
    */
+
   constructor() {
     const interval$ = timer(0, 1000);
 
     interval$.pipe(
-
-      /******************************/
-
-      
-      /******************************/
-
+      // takeUntil(this.#destroy$)
+      takeUntilDestroyed()
     ).subscribe({
       next: e => this.log(e),
       error: err => this.log('❌ ERROR: ' + err),
       complete: () => this.log('✅ COMPLETE')
     });
+
+    // inject(DestroyRef).onDestroy(() => sub.unsubscribe())
+    // inject(DestroyRef).onDestroy(() => this.#destroy$.next())
   }
 
   log(msg: unknown) {

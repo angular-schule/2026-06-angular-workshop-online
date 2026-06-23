@@ -36,7 +36,10 @@ export class ExerciseCreating {
     // timer(3000, 1000)      // ---------0---1---2---3---4---5---6 ...
     // timer(0, 1000)         // 0---1---2---3---4---5---6 ...
 
-    timer(0, 1000).subscribe({
+    timer(0, 1000).pipe(
+      map(e => e * 3),
+      filter(e => e % 2 === 0)
+    ).subscribe({
       next: e => this.log(e),
       complete: () => this.log('COMPLETE'),
     });
