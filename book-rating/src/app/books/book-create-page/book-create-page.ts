@@ -1,11 +1,20 @@
 import { Component, effect, inject, signal } from '@angular/core';
 import { Book } from '../shared/book';
-import { form, FormField, FormRoot, min, max, required, minLength, maxLength, provideSignalFormsConfig, pattern } from '@angular/forms/signals';
+import { form, FormField, FormRoot, min, max, required, minLength, maxLength, provideSignalFormsConfig, pattern, schema, apply, applyWhen } from '@angular/forms/signals';
 import { JsonPipe } from '@angular/common';
 import { BookStore } from '../shared/book-store';
 import { firstValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
+
+
+const isbnSchema = schema<string>(path => {
+  required(path, { message: 'ISBN muss angegeben werden.' });
+  minLength(path, 13, { message: 'ISBN ist zu kurz.' });
+  maxLength(path, 13, { message: 'ISBN ist zu lang.' });
+  pattern(path, /^[0-9]*$/, { message: 'ISBN muss aus Zahlen bestehen.' });
+});
+
 
 @Component({
   selector: 'app-book-create-page',
@@ -38,10 +47,16 @@ export class BookCreatePage {
   protected readonly bookForm = form(
     this.bookFormData,
     path => {
-      required(path.isbn, { message: 'ISBN muss angegeben werden.' });
-      minLength(path.isbn, 13, { message: 'ISBN ist zu kurz.' });
-      maxLength(path.isbn, 13, { message: 'ISBN ist zu lang.' });
-      pattern(path.isbn, /^[0-9]*$/, { message: 'ISBN muss aus Zahlen bestehen.' });
+      apply(path.isbn, isbnSchema);
+      /*applyWhen(
+        path.title,
+        (ctx) => {
+          return ctx.stateOf(path.isbn).valid();
+        },
+        titlePath => {
+          required(titlePath);
+        }
+      )*/
       
       required(path.title, { message: 'Titel muss angegeben werden.' });
       
