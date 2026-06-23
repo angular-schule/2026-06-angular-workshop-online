@@ -1,4 +1,4 @@
-<form>
+<form [formRoot]="bookForm">
     <div class="form-group">
         <label for="isbnInput">ISBN</label>
         <input type="text" id="isbnInput" class="form-control"
@@ -8,6 +8,10 @@
             [formField]="bookForm.isbn" />
         <p>valid: {{ bookForm.isbn().valid() }}</p>
         
+
+        <!-- Ausblick: Komponente für Fehleranzeige
+        <app-form-errors-display [fieldTree]="bookForm.isbn" elementId="isbnErrors" />-->
+
         @if (bookForm.isbn().touched() && bookForm.isbn().invalid()) {
             <div role="alert" id="isbnErrors">
                 <ul class="feedback-error">
@@ -38,6 +42,8 @@
         <label for="ratingInput">Bewertung</label>
         <input type="number" id="ratingInput" class="form-control" [formField]="bookForm.rating" />
     </div>
+
+    <button type="submit" class="btn btn-red">Abschicken</button>
 </form>
 
 <pre>{{ bookFormData() | json }}</pre>

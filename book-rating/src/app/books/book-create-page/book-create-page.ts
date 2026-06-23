@@ -1,7 +1,11 @@
-import { Component, effect, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { Book } from '../shared/book';
 import { form, FormField, FormRoot, min, max, required, minLength, maxLength, provideSignalFormsConfig, pattern } from '@angular/forms/signals';
 import { JsonPipe } from '@angular/common';
+import { BookStore } from '../shared/book-store';
+import { firstValueFrom } from 'rxjs';
+import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-book-create-page',
@@ -17,6 +21,9 @@ import { JsonPipe } from '@angular/common';
   ]
 })
 export class BookCreatePage {
+  readonly #store = inject(BookStore);
+  readonly #router = inject(Router);
+
   // Datenmodell
   protected readonly bookFormData = signal<Book>({
     isbn: '',
@@ -44,6 +51,29 @@ export class BookCreatePage {
       
       required(path.price, { message: 'Preis muss angegeben werden.' });
       min(path.price, 0, { message: 'Preis darf nicht < 0 sein.' });
+    },
+    {
+      submission: {
+        action: async (f) => {
+          const book = f().value();
+          try {
+            await firstValueFrom(this.#store.create(book));
+            await this.#router.navigate(['/books', book.isbn]);
+          } catch (e: unknown) {
+            if (e instanceof HttpErrorResponse) {
+              console.error('FEHLER!', e.status);
+              if (e.status === 409) {
+                return [
+                  { kind: 'isbnExists', message: 'ISBN ist schon belegt.', fieldTree: f.isbn }
+                ];
+              } else {
+                return [];
+              }
+            }
+          }
+          return [];
+        }
+      }
     }
   );
 
@@ -59,3 +89,16 @@ export class BookCreatePage {
   }
 
 }
+
+
+/*
+TODO
+- Submit-Button
+- nur abschicken, wenn gültig
+- Daten aus dem Formular holen
+- BookStore.create() Anlegen per HTTP
+- bei Erfolg:
+  - a) Nachricht anzeigen, auf der Seite bleiben, Formular zurücksetzen
+  - b) Navigieren zur Detailseite
+
+*/
