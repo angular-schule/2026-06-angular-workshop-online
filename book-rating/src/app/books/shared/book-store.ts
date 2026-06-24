@@ -31,6 +31,13 @@ export class BookStore {
             () => `${this.#apiUrl}/books/${isbn()}`
         )
     }
+    
+    searchResource(term: () => string | undefined): HttpResourceRef<Book[]> {
+        return httpResource<Book[]>(
+            () => term() ? `${this.#apiUrl}/books/search/${term()}` : undefined,
+            { defaultValue: [] }
+        );
+    }
 
     create(book: Book): Observable<Book>  {
         return this.#http.post<Book>(`${this.#apiUrl}/books`, book);
