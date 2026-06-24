@@ -4,6 +4,9 @@
   <nav class="mb-3">
     <a [routerLink]="['/home']" routerLinkActive="active" ariaCurrentWhenActive="page" class="me-2">Home</a>
     <a [routerLink]="['/books']" routerLinkActive="active" ariaCurrentWhenActive="page" class="me-2">Books</a>
+    @if (authService.isAuthenticated()) {
+      <button class="btn btn-outline-secondary btn-sm" (click)="logout()">Logout</button>
+    }
   </nav>
 
   <router-outlet />
