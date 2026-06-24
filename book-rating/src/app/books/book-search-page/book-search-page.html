@@ -2,3 +2,5 @@
     <label for="searchInput">Suchbegriff eingeben:</label>
     <input type="search" id="searchInput" class="form-control" placeholder="z. B. Angular" [formField]="searchForm" />
 </form>
+
+{{ results.value() | json }}
