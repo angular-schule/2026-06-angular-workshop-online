@@ -1,6 +1,6 @@
 import { Component, effect, inject, signal } from '@angular/core';
 import { Book } from '../shared/book';
-import { form, FormField, FormRoot, min, max, required, minLength, maxLength, provideSignalFormsConfig, pattern, schema, apply, applyWhen } from '@angular/forms/signals';
+import { form, FormField, FormRoot, min, max, required, minLength, maxLength, provideSignalFormsConfig, pattern, schema, apply, applyWhen, validate } from '@angular/forms/signals';
 import { JsonPipe } from '@angular/common';
 import { BookStore } from '../shared/book-store';
 import { firstValueFrom } from 'rxjs';
@@ -13,6 +13,16 @@ const isbnSchema = schema<string>(path => {
   minLength(path, 13, { message: 'ISBN ist zu kurz.' });
   maxLength(path, 13, { message: 'ISBN ist zu lang.' });
   pattern(path, /^[0-9]*$/, { message: 'ISBN muss aus Zahlen bestehen.' });
+
+  validate(path, (ctx) => {
+    if (!ctx.value().startsWith('978')) {
+      return [
+        { kind: 'isbnFormat', message: 'ISBN muss mit 978 beginnen.' }
+      ];
+    } else {
+      return undefined;
+    }
+  })
 });
 
 
