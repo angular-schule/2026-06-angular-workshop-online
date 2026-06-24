@@ -55,13 +55,28 @@ export class ExerciseCreating {
       sub.next(result);
       sub.next(5);
       sub.next(10);
-      sub.complete();
+      // sub.complete();
       sub.next(15);
       // fetch('/api').then(res => res.json()).then(data => sub.next(data))
 
-      setTimeout(() => sub.next(100), 2000);
-      setTimeout(() => sub.next(500), 4000);
-      setTimeout(() => sub.complete(), 6000);
+      const timer1 = setTimeout(() => sub.next(100), 2000);
+
+      ////////
+
+      const timer2 = setTimeout(() => {
+        sub.next(500);
+        console.log('NEXT AFTER 4000');
+      }, 4000);
+      const timer3 = setTimeout(() => sub.complete(), 6000);
+
+      // Teardown Logic
+      // wird ausgeführt, wenn unsubscribe()
+      return () => {
+        console.log('Teardown Logic');
+        clearTimeout(timer1)
+        clearTimeout(timer2)
+        clearTimeout(timer3)
+      };
     }
 
     // OBSERVER: verarbeitet die Werte
@@ -76,7 +91,12 @@ export class ExerciseCreating {
     // vermittelt die Werte zwischen Quelle und Ziel
     // Finnische Notation $
     const myObs$ = new Observable(producer);
-    // myObs$.subscribe(obs);
+    /*const sub = myObs$.subscribe(obs);
+
+    setTimeout(() => {
+      console.log('UNSUBSCRIBE')
+      sub.unsubscribe()
+    }, 3000)*/
 
     
     /******************************/

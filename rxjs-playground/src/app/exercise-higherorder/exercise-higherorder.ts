@@ -30,8 +30,7 @@ export class ExerciseHigherorder {
     /**************!!**************/
 
     this.result$ = this.source$.pipe(
-      map(tier => this.#es.echo(tier)),
-      mergeAll()
+      exhaustMap(tier => this.#es.echo(tier))
     );
 
     /**************!!**************/
