@@ -4,6 +4,8 @@ import { BookCard } from '../book-card/book-card';
 import { BookRatingHelper } from '../shared/book-rating-helper';
 import { BookStore } from '../shared/book-store';
 import { DatePipe } from '@angular/common';
+import { map, tap, timer } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-dashboard-page',
@@ -17,7 +19,13 @@ export class DashboardPage {
 
   protected readonly books = this.#bookStore.booksResource;
 
-  protected readonly currentTimestamp = signal(Date.now())
+  protected readonly currentTimestamp = toSignal(
+    timer(0, 1000).pipe(
+      map(() => Date.now()),
+      tap(e => console.log('TAP', e))
+    ),
+    { initialValue: Date.now() }
+  );
 
   constructor() {
     this.books.reload();
@@ -25,8 +33,8 @@ export class DashboardPage {
       this.books.set(receivedBooks);
     });*/
 
-    const interval = setInterval(() => this.currentTimestamp.set(Date.now()), 1000);
-    inject(DestroyRef).onDestroy(() => clearInterval(interval));
+    /*const interval = setInterval(() => this.currentTimestamp.set(Date.now()), 1000);
+    inject(DestroyRef).onDestroy(() => clearInterval(interval));*/
   }
 
   doRateUp(book: Book) {
