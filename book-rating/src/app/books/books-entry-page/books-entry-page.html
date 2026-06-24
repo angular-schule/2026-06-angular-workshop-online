@@ -4,6 +4,7 @@
     <a routerLink="." class="me-2" routerLinkActive="active" ariaCurrentWhenActive="page" [routerLinkActiveOptions]="{ exact: true }">Dashboard</a>
     <a routerLink="create" class="me-2" routerLinkActive="active" ariaCurrentWhenActive="page">Create</a>
     <a routerLink="search" class="me-2" routerLinkActive="active" ariaCurrentWhenActive="page">Search</a>
+    <a routerLink="favorites" class="me-2" routerLinkActive="active" ariaCurrentWhenActive="page">&#9829; Favorites ({{ store.likedBooksCount() }})</a>
 </nav>
 
 <router-outlet />

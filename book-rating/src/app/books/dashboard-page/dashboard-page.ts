@@ -47,6 +47,10 @@ export class DashboardPage {
     this.#updateList(ratedBook);
   }
 
+  doLikeBook(book: Book) {
+    this.#bookStore.addLikedBook(book);
+  }
+
   doDelete(book: Book) {
     this.#bookStore.delete(book.isbn).subscribe(() => {
       this.books.reload();
