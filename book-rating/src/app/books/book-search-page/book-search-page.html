@@ -2,3 +2,11 @@
     <label for="searchInput">Suchbegriff eingeben:</label>
     <input type="search" id="searchInput" class="form-control" placeholder="z. B. Angular" [formField]="searchForm" />
 </form>
+
+<div>
+    <h2>Ergebnisse</h2>
+    <ul>
+        @for (book of results(); track book.isbn) {<li>{{ book.title }} ({{ book.isbn }})</li>}
+        @empty {<li><strong>Keine Ergebnisse!</strong></li>}
+    </ul>
+</div>
