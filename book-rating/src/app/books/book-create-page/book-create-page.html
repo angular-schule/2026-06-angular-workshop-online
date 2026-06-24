@@ -47,6 +47,16 @@
         <input type="number" id="ratingInput" class="form-control" [formField]="bookForm.rating" />
     </div>
 
+    <fieldset>
+        <p>authors valid: {{ bookForm.authors().valid() }}</p>
+        <legend>Autoren</legend>
+        <button type="button" class="btn btn-primary" (click)="addAuthorField()">+ Autor</button>
+
+        @for (author of bookForm.authors; track author) {
+            <input type="text" class="form-control" [formField]="author" [aria-label]="`Autor ${$index + 1}`" />
+        }
+    </fieldset>
+
     <button type="submit" class="btn btn-red">Abschicken</button>
 </form>
 

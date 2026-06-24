@@ -1,6 +1,6 @@
 import { Component, effect, inject, signal } from '@angular/core';
 import { Book } from '../shared/book';
-import { form, FormField, FormRoot, min, max, required, minLength, maxLength, provideSignalFormsConfig, pattern, schema, apply, applyWhen, validate, debounce, disabled, hidden } from '@angular/forms/signals';
+import { form, FormField, FormRoot, min, max, required, minLength, maxLength, provideSignalFormsConfig, pattern, schema, apply, applyWhen, validate, debounce, disabled, hidden, applyEach } from '@angular/forms/signals';
 import { JsonPipe } from '@angular/common';
 import { BookStore } from '../shared/book-store';
 import { firstValueFrom } from 'rxjs';
@@ -50,7 +50,7 @@ export class BookCreatePage {
     description: '',
     rating: 1,
     price: 0,
-    authors: []
+    authors: ['', '']
   });
 
   // Formularmodell
@@ -79,11 +79,30 @@ export class BookCreatePage {
       
       required(path.price, { message: 'Preis muss angegeben werden.' });
       min(path.price, 0, { message: 'Preis darf nicht < 0 sein.' });
+
+      /*applyEach(path.authors, authorPath => {
+        required(authorPath);
+        minLength(authorPath, 3);
+      });*/
+
+      validate(path.authors, (ctx) => {
+        if (!ctx.value().some(value => value.length > 0)) {
+          return [
+            { kind: 'minOneAuthor', message: 'Mindestens 1 Autor notwendig' }
+          ];
+        } else {
+          return undefined;
+        }
+      })
     },
     {
       submission: {
         action: async (f) => {
-          const book = f().value();
+          const book = {
+            ...f().value(),
+            authors: f.authors().value().filter(a => a.length > 0)
+          };
+
           try {
             await firstValueFrom(this.#store.create(book));
             await this.#router.navigate(['/books', book.isbn]);
@@ -114,6 +133,15 @@ export class BookCreatePage {
     if (fromStorage) {
       this.bookFormData.set(JSON.parse(fromStorage))
     }*/
+  }
+
+  addAuthorField() {
+    this.bookForm.authors().value.update(oldAuthors => [...oldAuthors, '']);
+
+    /*this.bookFormData.update(oldData => ({
+      ...oldData,
+      authors: [...oldData.authors, '']
+    }))*/
   }
 
 }
