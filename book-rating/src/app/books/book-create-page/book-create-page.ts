@@ -1,6 +1,6 @@
 import { Component, effect, inject, signal } from '@angular/core';
 import { Book } from '../shared/book';
-import { form, FormField, FormRoot, min, max, required, minLength, maxLength, provideSignalFormsConfig, pattern, schema, apply, applyWhen, validate } from '@angular/forms/signals';
+import { form, FormField, FormRoot, min, max, required, minLength, maxLength, provideSignalFormsConfig, pattern, schema, apply, applyWhen, validate, debounce, disabled, hidden } from '@angular/forms/signals';
 import { JsonPipe } from '@angular/common';
 import { BookStore } from '../shared/book-store';
 import { firstValueFrom } from 'rxjs';
@@ -69,6 +69,9 @@ export class BookCreatePage {
       )*/
       
       required(path.title, { message: 'Titel muss angegeben werden.' });
+      debounce(path.title, 150);
+
+      hidden(path.description, { when: (ctx) => !ctx.valueOf(path.title) });
       
       required(path.rating, { message: 'Bewertung muss angegeben werden.' });
       min(path.rating, 1, { message: 'Bewertung muss zwischen 1 und 5 sein.' });

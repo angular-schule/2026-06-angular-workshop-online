@@ -30,10 +30,12 @@
         <input type="text" id="titleInput" class="form-control" [formField]="bookForm.title" />
     </div>
 
+    @if (!bookForm.description().hidden()) {
     <div class="form-group">
         <label for="descInput">Beschreibung</label>
         <textarea id="descInput" class="form-control" [formField]="bookForm.description"></textarea>
     </div>
+    }
 
     <div class="form-group">
         <label for="priceInput">Preis</label>
