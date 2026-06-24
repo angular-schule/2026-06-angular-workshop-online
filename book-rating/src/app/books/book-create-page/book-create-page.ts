@@ -144,6 +144,16 @@ export class BookCreatePage {
     }))*/
   }
 
+  removeAuthorField(index: number) {
+    this.bookForm.authors().value.update(oldAuthors => {
+      return oldAuthors.filter((_, i) => i !== index);
+      
+      /*const firstPortion = oldAuthors.slice(0, index);
+      const secondPortion = oldAuthors.slice(index + 1);
+      return [...firstPortion, ...secondPortion];*/
+    });
+  }
+
 }
 
 
